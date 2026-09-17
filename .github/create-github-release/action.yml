@@ -37,6 +37,10 @@ inputs:
     description: 'Suffix to append to the release name'
     required: false
     default: ''
+  commit:
+    description: 'Commit hash for the release'
+    required: true
+    default: ''
   release-timestamp:
     description: 'If tnon-empty, this timestamp will be used for the release; otherwise, a new timestamp will be generated'
     required: false
@@ -130,11 +134,13 @@ runs:
       with:
         token: ${{ inputs.github-token }}
         tag: "${{ inputs.tag-name }}_${{ steps.timestamp.outputs.timestamp }}"
+        commit: ${{ inputs.commit }}
         name: "Automated release - branch: ${{ inputs.tag-name }} - type: ${{ inputs.build-type }} - ${{ steps.timestamp.outputs.timestamp }}"
         body: | 
           Automated release for ${{ inputs.project-name }}
           - Build Type: ${{ inputs.build-type }}
           - Build Timestamp: ${{ steps.timestamp.outputs.timestamp }}
+          - Commit: ${{ inputs.commit }}
         draft: ${{ inputs.draft }}
         prerelease: ${{ inputs.prerelease }}
         artifacts: ${{ inputs.release-name-suffix != '' && steps.prepare-artifacts.outputs.modified_artifacts || inputs.artifacts }}
