@@ -9,3 +9,9 @@ When setting up a new composite action please use the following naming and folde
 └───your-composite-action-name
     └───action.yaml
 ```
+
+Using an action requires the reference to a tag on the action. To bring the tag of the must recent commit up-to-date run
+```
+git tag -f v1 <new-commit-sha>
+git push origin v1 --force
+```
